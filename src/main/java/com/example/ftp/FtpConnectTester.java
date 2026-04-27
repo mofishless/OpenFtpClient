@@ -12,9 +12,22 @@ public class FtpConnectTester {
     private static final int DATA_TIMEOUT_MS = 30_000;
 
     public static void main(String[] args) {
+        if (args.length > 0 && "--concurrent".equals(args[0])) {
+            if (args.length < 2) {
+                FtpConcurrentTester.printConcurrentUsage();
+                System.exit(1);
+            }
+            String[] concurrentArgs = new String[args.length - 1];
+            System.arraycopy(args, 1, concurrentArgs, 0, concurrentArgs.length);
+            FtpConcurrentTester.run(concurrentArgs);
+            return;
+        }
+
         if (args.length < 4) {
-            System.err.println("用法: java -jar ftp-client.jar <host> <port> <username> <password>");
+            System.err.println("单连接用法: java -jar ftp-client.jar <host> <port> <username> <password>");
             System.err.println("示例: java -jar ftp-client.jar 192.168.1.100 21 ftpuser mypassword");
+            System.err.println("");
+            FtpConcurrentTester.printConcurrentUsage();
             System.exit(1);
         }
 
