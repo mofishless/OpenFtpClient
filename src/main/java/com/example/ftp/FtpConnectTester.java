@@ -57,6 +57,7 @@ public class FtpConnectTester {
             System.out.println("[INFO] 登录成功");
 
             ftp.enterLocalPassiveMode();
+            System.out.println("[INFO] 连接模式: 被动模式 (PASV)");
 
             FTPFile[] files = ftp.listFiles("/");
             if (files == null) {
@@ -64,6 +65,8 @@ public class FtpConnectTester {
                 return 1;
             }
 
+            System.out.println("[INFO] 被动模式数据端口: " + ftp.getPassivePort()
+                    + " (服务器地址: " + ftp.getPassiveHost() + ")");
             System.out.println("[INFO] 根目录文件列表:");
             for (FTPFile file : files) {
                 String type = file.isDirectory() ? "[DIR] " : "[FILE]";
