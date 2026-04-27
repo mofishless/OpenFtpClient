@@ -79,6 +79,9 @@ public class FtpConnectTester {
             if (ftp.isConnected()) {
                 try {
                     ftp.logout();
+                } catch (IOException ignored) {
+                }
+                try {
                     ftp.disconnect();
                 } catch (IOException ignored) {
                 }
