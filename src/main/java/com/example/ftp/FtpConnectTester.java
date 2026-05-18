@@ -23,6 +23,24 @@ public class FtpConnectTester {
             return;
         }
 
+        if (args.length > 0 && "--upload".equals(args[0])) {
+            if (args.length < 6) {
+                FtpUploader.printUploadUsage();
+                System.exit(1);
+            }
+            String host = args[1];
+            int port;
+            try {
+                port = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                System.err.println("[ERROR] 端口号无效: " + args[2]);
+                System.exit(1);
+                return;
+            }
+            int exitCode = FtpUploader.upload(host, port, args[3], args[4], args[5]);
+            System.exit(exitCode);
+        }
+
         if (args.length < 4) {
             System.err.println("单连接用法: java -jar ftp-client.jar <host> <port> <username> <password>");
             System.err.println("示例: java -jar ftp-client.jar 192.168.1.100 21 ftpuser mypassword");
